@@ -44,6 +44,27 @@ fn check_collinear(a0: &[f64], a1: &[f64], b0: &[f64], b1: &[f64]) -> bool {
 
 #[cfg(test)]
 mod test_seg_intersects {
+    use super::segment_intersects;
+
     #[test]
-    fn seg_intersects() {}
+    fn seg_intersects() {
+        assert_eq!(segment_intersects(&vec!(-1., 0.), &vec!(1., 0.), &vec!(0., -1.), &vec!(0., 1.)), true);
+        assert_eq!(segment_intersects(&vec!(0.5, 0.), &vec!(1., 0.), &vec!(0., -1.), &vec!(0., 1.)), false);
+        assert_eq!(segment_intersects(&vec!(0., 0.), &vec!(1., 0.), &vec!(0., -1.), &vec!(0., 1.)), true);
+
+        assert_eq!(segment_intersects(&vec!(0., 0.), &vec!(100000000000000020000., 1e-12),
+                                      &vec!(1., 0.), &vec!(1e20, 1e-11)), true);
+
+        assert_eq!(segment_intersects(&vec!(0., 0.), &vec!(1e20, 1e-11),
+                                   &vec!(1., 0.), &vec!(100000000000000020000., 1e-12)), false);
+
+        //collinear, no intersect
+        assert_eq!(segment_intersects(&vec!(0., 1.), &vec!(0., 2.), &vec!(0., -1.), &vec!(0., -2.)), false);
+        //collinear, intersect
+        assert_eq!(segment_intersects(&vec!(0., 1.), &vec!(0., 2.), &vec!(0., 1.5), &vec!(0., -2.)), true);
+        //collinear, endpoint touch
+        assert_eq!(segment_intersects(&vec!(0., 1.), &vec!(0., 2.), &vec!(0., 1.), &vec!(0., -2.)), true);
+        //endpoint touches
+        assert_eq!(segment_intersects(&vec!(0., 1.), &vec!(0., -1.), &vec!(0., 0.), &vec!(0., 1.)), true);
+    }
 }
