@@ -1,0 +1,7 @@
+[package]
+name = "segment_intersects"
+version = "0.1.0"
+authors = ["Titus Tienaah <titus.intdxdt@gmail.com>"]
+
+[dependencies]
+robust_orientation = { git = "https://github.com/intdxdt/robust_orientation", branch = "master" }
